@@ -72,7 +72,7 @@
     if ( self = [self initWithDim:dim] ) {
         srand((unsigned int)time(NULL));
         int count = givens * pow(self.dim, 4);
-        for ( int n=0; n<count; n++ ) {
+        for ( int n=0; n<33; n++ ) {
             int r, c;
             Region* region;
             Cell* cell;
@@ -98,10 +98,10 @@
     if ( value != 0 )
         return [NSSet set];
     else {
-        NSMutableSet* possibles = [NSMutableSet setWithSet:[[self.regions objectAtIndex:0] possibleForCell:cell andDim:self.dim]];
+        NSMutableSet* possibles = [NSMutableSet setWithSet:[[self.regions objectAtIndex:0] possibleForDim:self.dim]];
         for ( Region* region in self.regions ) {
             if ( [region.cells indexOfObject:cell] != NSNotFound ) {
-                [possibles intersectSet:[region possibleForCell:cell andDim:self.dim]];
+                [possibles intersectSet:[region possibleForDim:self.dim]];
             }
         }
         NSArray* possiblesArray = [possibles allObjects];
@@ -127,6 +127,50 @@
 }
 
 -(BOOL) solve {
+    NSMutableSet* cellsSet = [NSMutableSet set];
+    for ( Region* region in self.regions )
+        [cellsSet unionSet:[NSSet setWithArray:region.cells]];
+    NSArray* cells = [[cellsSet allObjects] sortedArrayUsingComparator:^(Cell* a, Cell* b) {
+        NSUInteger nA = [[self possibleForCell:a] count];
+        NSUInteger nB = [[self possibleForCell:b] count];
+        if ( nA > nB )
+            return (NSComparisonResult)NSOrderedDescending;
+        else if ( nA < nB )
+            return (NSComparisonResult)NSOrderedAscending;
+        else
+            return (NSComparisonResult)NSOrderedSame;
+    }];
+    
+    NSInteger index = 0;
+    
+    do {
+        Cell* cell = [cells objectAtIndex:index];
+        NSMutableSet* possibles = [NSMutableSet setWithSet:[self possibleForCell:cell]];
+        if ( [possibles count] == 0 && [cell.value charValue] > 0 ) {
+            index++;
+            continue;
+        }
+        else if ( [possibles count] == 0 ) {
+            do {
+                cell.value = [NSNumber numberWithChar:0];
+                index--;
+                cell = [cells objectAtIndex:index];
+            } while ( [[self possibleForCell:cell] count] < 1 );
+        }
+        if ( neednew ) break;
+        for ( NSNumber* possible in possibles )
+            if ( [possible charValue] == [cell.value charValue] ) {
+                [possibles removeObject:possible];
+                break;
+            }
+        cell.value = [possibles anyObject];
+        index++;
+    } while ( index < [cells count] );
+    
+    return NO;
+}
+
+-(BOOL) solveOld {
     NSMutableArray* solvedCells = [NSMutableArray array];
     NSMutableSet* unfixedCellsSet = [NSMutableSet setWithArray:[[self.regions objectAtIndex:0] cells]];
     for ( Region* region in self.regions )

@@ -82,22 +82,18 @@
     return conflict_free;
 }
 
--(NSSet*) possibleForCell:(Cell *)cell andDim:(int)dim {
-    if ( [cell.value charValue] != 0 )
-        return [NSSet set];
-    else {
-        NSMutableSet* possibles = [NSMutableSet set];
-        int rsize = pow(dim,2);
-        char values[rsize];
-        for ( int i=0; i<rsize; i++ )
-            values[i] = i+1;
-        for ( Cell* cell in self.cells )
-            values[ [cell.value intValue]-1 ] = 0;
-        for ( int i=0; i<rsize; i++ )
-            if ( values[i] != 0 )
-                [possibles addObject:[NSNumber numberWithChar:values[i]]];
-        return possibles;
-    }
+-(NSSet*) possibleForDim:(int)dim {
+    NSMutableSet* possibles = [NSMutableSet set];
+    int rsize = pow(dim,2);
+    char values[rsize];
+    for ( int i=0; i<rsize; i++ )
+        values[i] = i+1;
+    for ( Cell* cell in self.cells )
+        values[ [cell.value intValue]-1 ] = 0;
+    for ( int i=0; i<rsize; i++ )
+        if ( values[i] != 0 )
+            [possibles addObject:[NSNumber numberWithChar:values[i]]];
+    return possibles;
 }
 
 -(NSString*) description {

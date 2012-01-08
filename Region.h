@@ -25,6 +25,6 @@ enum {
 +(id) regionWithCellArray:(NSArray*)cells;
 -(id) initWithCellArray:(NSArray*)cells;
 -(char) conflict;
--(NSSet*) possibleForCell:(Cell*)cell andDim:(int)dim;
+-(NSSet*) possibleForDim:(int)dim;
 
 @end
