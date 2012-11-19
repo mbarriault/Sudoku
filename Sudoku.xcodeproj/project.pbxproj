@@ -20,6 +20,7 @@
 		6CAD7CDB14B920E70004F7AC /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CAD7CD814B920E70004F7AC /* icon.png */; };
 		6CAD7CDC14B920E70004F7AC /* icon.idraw in Resources */ = {isa = PBXBuildFile; fileRef = 6CAD7CD914B920E70004F7AC /* icon.idraw */; };
 		6CAD7CDD14B920E70004F7AC /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6CAD7CDA14B920E70004F7AC /* icon.icns */; };
+		6CAD7CE014BA6A3C0004F7AC /* NSSet+Random.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CAD7CDF14BA6A3C0004F7AC /* NSSet+Random.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,8 @@
 		6CAD7CD814B920E70004F7AC /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		6CAD7CD914B920E70004F7AC /* icon.idraw */ = {isa = PBXFileReference; lastKnownFileType = file; path = icon.idraw; sourceTree = "<group>"; };
 		6CAD7CDA14B920E70004F7AC /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
+		6CAD7CDE14BA6A3C0004F7AC /* NSSet+Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSSet+Random.h"; sourceTree = "<group>"; };
+		6CAD7CDF14BA6A3C0004F7AC /* NSSet+Random.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSet+Random.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +67,8 @@
 		6CAD7C9814B8CCA90004F7AC = {
 			isa = PBXGroup;
 			children = (
+				6CAD7CDE14BA6A3C0004F7AC /* NSSet+Random.h */,
+				6CAD7CDF14BA6A3C0004F7AC /* NSSet+Random.m */,
 				6CAD7CC414B8CCD10004F7AC /* Cell.h */,
 				6CAD7CC514B8CCD10004F7AC /* Cell.m */,
 				6CAD7CC714B8CDEE0004F7AC /* Region.h */,
@@ -204,6 +209,7 @@
 				6CAD7CC914B8CDEE0004F7AC /* Region.m in Sources */,
 				6CAD7CD014B8D5FF0004F7AC /* Grid.m in Sources */,
 				6CAD7CD714B8F9B60004F7AC /* View.m in Sources */,
+				6CAD7CE014BA6A3C0004F7AC /* NSSet+Random.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -21,6 +21,7 @@
 +(id) gridWithDim:(int)dim andRandoms:(float)givens;
 -(id) initWithDim:(int)dim andRandoms:(float)givens;
 -(NSSet*) possibleForCell:(Cell*)cell;
+-(void) generate:(NSNumber*)count;
 -(char) conflict;
 -(BOOL) solve;
 

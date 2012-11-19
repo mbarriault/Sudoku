@@ -19,7 +19,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Insert code here to initialize your application
-    [NSThread detachNewThreadSelector:@selector(solve) toTarget:self.view.grid withObject:nil];
+//    [NSThread detachNewThreadSelector:@selector(solve) toTarget:self.view.grid withObject:nil];
 //    [self.view.grid solve];
 }
 

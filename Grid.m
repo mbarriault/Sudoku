@@ -7,6 +7,7 @@
 //
 
 #import "Grid.h"
+#import "NSSet+Random.h"
 
 @implementation Grid
 
@@ -72,7 +73,9 @@
     if ( self = [self initWithDim:dim] ) {
         srand((unsigned int)time(NULL));
         int count = givens * pow(self.dim, 4);
-        for ( int n=0; n<33; n++ ) {
+        //[NSThread detachNewThreadSelector:@selector(generate:) toTarget:self withObject:[NSNumber numberWithChar:20]];
+//        [self generate];
+/*        for ( int n=0; n<33; n++ ) {
             int r, c;
             Region* region;
             Cell* cell;
@@ -88,7 +91,7 @@
             int v = rand() % (int)[possibles count];
             cell.value = [possibles objectAtIndex:v];
             cell.fixed = YES;
-        }
+        }*/
     }
     return self;
 }
@@ -126,6 +129,57 @@
     return conflict_free;
 }
 
+-(void) generate:(NSNumber*)count {
+    srand((unsigned int)time(NULL));
+    
+    NSMutableSet* cellsSet = [NSMutableSet set];
+    for ( Region* region in self.regions )
+        [cellsSet unionSet:[NSSet setWithArray:region.cells]];
+    NSArray* cells = [cellsSet allObjects];
+    NSMutableArray* setCells = [NSMutableArray arrayWithCapacity:[cellsSet count]];
+    NSMutableSet* unsetCells = [NSMutableSet setWithArray:[cells copy]];
+    
+    while ( [unsetCells count] > 0 ) {
+        Cell* cell = [unsetCells randomObject];
+        NSSet* possibles = [self possibleForCell:cell];
+        if ( [possibles count] == 0 ) {
+            Cell* other = [setCells lastObject];
+            other.value = [NSNumber numberWithChar:0];
+            other.fixed = NO;
+            [setCells removeObject:other];
+            [unsetCells addObject:other];
+        }
+        else {
+            cell.value = [possibles randomObject];
+            if ( [count intValue] > [setCells count] )
+                cell.fixed = YES;
+            else
+                cell.fixed = NO;
+            [setCells addObject:cell];
+            [unsetCells removeObject:cell];
+        }
+    }
+    
+    
+/*    for ( int n=0; n<count; n++ ) {
+        int r, c;
+        Region* region;
+        Cell* cell;
+        do {
+            r = rand() % (int)[self.regions count];
+            region = [self.regions objectAtIndex:r];
+            c = rand() % (int)[region.cells count];
+            cell = [region.cells objectAtIndex:c];
+        } while ( [cell.value charValue] != 0 );
+        NSArray* possibles = [[self possibleForCell:cell] allObjects];
+        if ( [possibles count] == 0 )
+            continue;
+        int v = rand() % (int)[possibles count];
+        cell.value = [possibles objectAtIndex:v];
+        cell.fixed = YES;
+    }*/
+}
+
 -(BOOL) solve {
     NSMutableSet* cellsSet = [NSMutableSet set];
     for ( Region* region in self.regions )
@@ -157,7 +211,6 @@
                 cell = [cells objectAtIndex:index];
             } while ( [[self possibleForCell:cell] count] < 1 );
         }
-        if ( neednew ) break;
         for ( NSNumber* possible in possibles )
             if ( [possible charValue] == [cell.value charValue] ) {
                 [possibles removeObject:possible];
